@@ -10,6 +10,7 @@ import org.springframework.context.annotation.Configuration;
 
 import com.springboot.mongo.domain.Post;
 import com.springboot.mongo.domain.User;
+import com.springboot.mongo.dto.AuthorDTO;
 import com.springboot.mongo.repository.PostRepository;
 import com.springboot.mongo.repository.UserRepository;
 
@@ -29,18 +30,18 @@ public class Instatiation implements CommandLineRunner{
 		sdf.setTimeZone(TimeZone.getTimeZone("GMT"));
 		
 		userRepository.deleteAll();
+		postRepository.deleteAll();
+
 		
 		User maria = new User(null, "Maria Brown", "maria@gmail.com");
 		User alex = new User(null, "Alex Green", "alex@gmail.com");
 		User bob = new User(null, "Bob Grey", "bob@gmail.com");
-		
-		postRepository.deleteAll();
 
-		
-		Post post1 = new Post(null, sdf.parse("21/03/2024"), "Partiu Viagem", "Vou viajar para são paulo, abraços", maria);
-		Post post2 = new Post(null, sdf.parse("23/03/2024"), "Bom dia", "Acordei feliz hoje", maria);
-		
 		userRepository.saveAll(Arrays.asList(maria, alex, bob));
+		
+		Post post1 = new Post(null, sdf.parse("21/03/2024"), "Partiu Viagem", "Vou viajar para são paulo, abraços", new AuthorDTO(maria));
+		Post post2 = new Post(null, sdf.parse("23/03/2024"), "Bom dia", "Acordei feliz hoje", new AuthorDTO(maria));
+		
 		postRepository.saveAll(Arrays.asList(post1, post2));
 	}
 
